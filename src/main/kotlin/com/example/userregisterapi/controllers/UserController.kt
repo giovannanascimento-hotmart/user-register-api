@@ -15,13 +15,18 @@ class UserController {
     @Autowired
     lateinit var repository: UsersRepository
 
-    @RequestMapping(method = [RequestMethod.GET])
+    @RequestMapping("/getUsers", method = [RequestMethod.GET])
     fun index():List<User>{
         return repository.findAll()
     }
 
-    @RequestMapping(method = [RequestMethod.POST])
+    @RequestMapping("/createUser", method = [RequestMethod.POST])
     fun create(@RequestBody user: User): User {
         return repository.save(user)
+    }
+
+    @RequestMapping("/findUser", method = [RequestMethod.GET])
+    fun findUser(@RequestBody user: User): User {
+        return repository.findById(user.id!!).get()
     }
 }

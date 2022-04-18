@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import javax.persistence.EntityNotFoundException
 
 @RestController
 @RequestMapping("/users")
@@ -27,6 +28,17 @@ class UserController {
 
     @RequestMapping("/findUser", method = [RequestMethod.GET])
     fun findUser(@RequestBody user: User): User {
-        return repository.findById(user.id!!).get()
+        val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
+        return userDocument
+    }
+
+    @RequestMapping("/updateUser", method = [RequestMethod.PUT])
+    fun updateUser(@RequestBody user: User): User {
+        val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
+        userDocument.apply {
+            this.name = user.name
+            this.cpf = user.cpf
+        }
+        return repository.save(userDocument)
     }
 }

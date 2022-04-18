@@ -7,12 +7,12 @@ import javax.persistence.*
 data class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: Long,
 
     @Column
-    val name: String? = "",
+    var name: String? = "",
 
     @Column
-    val cpf: String? = ""
+    var cpf: String? = ""
 )
 

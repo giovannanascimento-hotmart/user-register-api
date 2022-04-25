@@ -36,9 +36,15 @@ class UserController {
     fun updateUser(@RequestBody user: User): User {
         val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
         userDocument.apply {
-            this.name = user.name
+            this.nome = user.nome
             this.cpf = user.cpf
         }
         return repository.save(userDocument)
+    }
+
+    @RequestMapping("/deleteUser", method = [RequestMethod.DELETE])
+    fun deleteUser(@RequestBody user: User) {
+        val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
+         return repository.delete(userDocument)
     }
 }

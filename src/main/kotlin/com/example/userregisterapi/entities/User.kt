@@ -10,7 +10,7 @@ data class User (
     val id: Long,
 
     @Column
-    var name: String? = "",
+    var nome: String? = "",
 
     @Column
     var cpf: String? = ""

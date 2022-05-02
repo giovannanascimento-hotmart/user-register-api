@@ -2,7 +2,13 @@ package com.example.userregisterapi.controllers
 
 import com.example.userregisterapi.entities.User
 import com.example.userregisterapi.repository.UsersRepository
+import com.example.userregisterapi.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -11,40 +17,30 @@ import javax.persistence.EntityNotFoundException
 
 @RestController
 @RequestMapping("/users")
-class UserController {
+class UserController(var userService: UserService) {
 
-    @Autowired
-    lateinit var repository: UsersRepository
-
-    @RequestMapping("/getUsers", method = [RequestMethod.GET])
-    fun index():List<User>{
-        return repository.findAll()
+    @GetMapping("/findAll")
+    fun index():ResponseEntity<List<User>>{
+        return ResponseEntity.ok(userService.findAll())
     }
 
-    @RequestMapping("/createUser", method = [RequestMethod.POST])
+    @PostMapping("/createUser")
     fun create(@RequestBody user: User): User {
-        return repository.save(user)
+        return userService.create(user)
     }
 
-    @RequestMapping("/findUser", method = [RequestMethod.GET])
+    @GetMapping("/findUser")
     fun findUser(@RequestBody user: User): User {
-        val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
-        return userDocument
+        return userService.findUser(user)
     }
 
-    @RequestMapping("/updateUser", method = [RequestMethod.PUT])
+    @PutMapping("/updateUser")
     fun updateUser(@RequestBody user: User): User {
-        val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
-        userDocument.apply {
-            this.nome = user.nome
-            this.cpf = user.cpf
-        }
-        return repository.save(userDocument)
+       return userService.updateUser(user)
     }
 
-    @RequestMapping("/deleteUser", method = [RequestMethod.DELETE])
+    @DeleteMapping("/deleteUser")
     fun deleteUser(@RequestBody user: User) {
-        val userDocument = repository.findById(user.id).orElseThrow { EntityNotFoundException() }
-         return repository.delete(userDocument)
+        return userService.deleteUser(user)
     }
 }

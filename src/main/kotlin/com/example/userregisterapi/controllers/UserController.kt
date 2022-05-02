@@ -5,7 +5,10 @@ import com.example.userregisterapi.repository.UsersRepository
 import com.example.userregisterapi.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -21,22 +24,22 @@ class UserController(var userService: UserService) {
         return ResponseEntity.ok(userService.findAll())
     }
 
-    @RequestMapping("/createUser", method = [RequestMethod.POST])
+    @PostMapping("/createUser")
     fun create(@RequestBody user: User): User {
         return userService.create(user)
     }
 
-    @RequestMapping("/findUser", method = [RequestMethod.GET])
+    @GetMapping("/findUser")
     fun findUser(@RequestBody user: User): User {
         return userService.findUser(user)
     }
 
-    @RequestMapping("/updateUser", method = [RequestMethod.PUT])
+    @PutMapping("/updateUser")
     fun updateUser(@RequestBody user: User): User {
        return userService.updateUser(user)
     }
 
-    @RequestMapping("/deleteUser", method = [RequestMethod.DELETE])
+    @DeleteMapping("/deleteUser")
     fun deleteUser(@RequestBody user: User) {
         return userService.deleteUser(user)
     }

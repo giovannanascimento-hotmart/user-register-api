@@ -19,8 +19,8 @@ class UserService (var userRepository: UsersRepository) {
         return userRepository.save(user)
     }
 
-    fun findUser(user: User): User{
-        val userDocument = userRepository.findById(user.id).orElseThrow { EntityNotFoundException() }
+    fun findUser(id: Long): User{
+        val userDocument = userRepository.findById(id).orElseThrow { EntityNotFoundException() }
         return userDocument
     }
 

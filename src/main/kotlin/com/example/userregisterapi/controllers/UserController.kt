@@ -31,7 +31,7 @@ class UserController(var userService: UserService) {
 
     @GetMapping("/findUser")
     fun findUser(@RequestBody user: User): User {
-        return userService.findUser(user)
+        return userService.findUser(user.id!!)
     }
 
     @PutMapping("/updateUser")
